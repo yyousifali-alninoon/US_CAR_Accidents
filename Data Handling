@@ -1,0 +1,192 @@
+import pandas as pd
+
+df = pd.read_csv(US_Accidents.csv,parse_dates=['Start_Time','End_Time','Weather_Timestamp'])                                # changed the data type to dates)
+
+filtered = (df['Start_Time'] >= "2017-01-01 00:00:00") & (df['Start_Time'] <= "2022-12-31 23:59:59")                        # Remove first and last years "2016","2023" for missing months
+df = df[filtered]
+
+df.columns
+Index(['ID', 'Source', 'Severity', 'Start_Time', 'End_Time', 'Start_Lat',
+       'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Description',
+       'Street', 'City', 'County', 'State', 'Zipcode', 'Country', 'Timezone',
+       'Airport_Code', 'Weather_Timestamp', 'Temperature(F)', 'Wind_Chill(F)',
+       'Humidity(%)', 'Pressure(in)', 'Visibility(mi)', 'Wind_Direction',
+       'Wind_Speed(mph)', 'Precipitation(in)', 'Weather_Condition', 'Amenity',
+       'Bump', 'Crossing', 'Give_Way', 'Junction', 'No_Exit', 'Railway',
+       'Roundabout', 'Station', 'Stop', 'Traffic_Calming', 'Traffic_Signal',
+       'Turning_Loop', 'Sunrise_Sunset', 'Civil_Twilight', 'Nautical_Twilight',
+       'Astronomical_Twilight'],
+      dtype='str')
+
+df.info()
+<class 'pandas.DataFrame'>
+Index: 7070940 entries, 9206 to 7728393
+Data columns (total 46 columns):
+ #   Column                 Dtype         
+---  ------                 -----         
+ 0   ID                     str           
+ 1   Source                 str           
+ 2   Severity               int64         
+ 3   Start_Time             str           
+ 4   End_Time               str           
+ 5   Start_Lat              float64       
+ 6   Start_Lng              float64       
+ 7   End_Lat                float64       
+ 8   End_Lng                float64       
+ 9   Distance(mi)           float64       
+ 10  Description            str           
+ 11  Street                 str           
+ 12  City                   str           
+ 13  County                 str           
+ 14  State                  str           
+ 15  Zipcode                str           
+ 16  Country                str           
+ 17  Timezone               str           
+ 18  Airport_Code           str           
+ 19  Weather_Timestamp      datetime64[us]
+ 20  Temperature(F)         float64       
+ 21  Wind_Chill(F)          float64       
+ 22  Humidity(%)            float64       
+ 23  Pressure(in)           float64       
+ 24  Visibility(mi)         float64       
+ 25  Wind_Direction         str           
+ 26  Wind_Speed(mph)        float64       
+ 27  Precipitation(in)      float64       
+ 28  Weather_Condition      str           
+ 29  Amenity                bool          
+ 30  Bump                   bool          
+ 31  Crossing               bool          
+ 32  Give_Way               bool          
+ 33  Junction               bool          
+ 34  No_Exit                bool          
+ 35  Railway                bool          
+ 36  Roundabout             bool          
+ 37  Station                bool          
+ 38  Stop                   bool          
+ 39  Traffic_Calming        bool          
+ 40  Traffic_Signal         bool          
+ 41  Turning_Loop           bool          
+ 42  Sunrise_Sunset         str           
+ 43  Civil_Twilight         str           
+ 44  Nautical_Twilight      str           
+ 45  Astronomical_Twilight  str           
+dtypes: bool(13), datetime64[us](1), float64(12), int64(1), str(19)
+memory usage: 1.9 GB
+
+df['Start_Time'] = df['Start_Time'] = pd.to_datetime(df['Start_Time'], format='mixed')                                       # Unite the date Format For Between All dates
+
+df['End_Time'] = df['End_Time'] = pd.to_datetime(df['End_Time'], format='mixed')                                             # Unite the date Format For Between All dates
+
+df.dtypes
+ID                                  str
+Source                              str
+Severity                          int64
+Start_Time               datetime64[ns]
+End_Time                 datetime64[ns]
+Start_Lat                       float64
+Start_Lng                       float64
+End_Lat                         float64
+End_Lng                         float64
+Distance(mi)                    float64
+Description                         str
+Street                              str
+City                                str
+County                              str
+State                               str
+Zipcode                             str
+Country                             str
+Timezone                            str
+Airport_Code                        str
+Weather_Timestamp        datetime64[us]
+Temperature(F)                  float64
+Wind_Chill(F)                   float64
+Humidity(%)                     float64
+Pressure(in)                    float64
+Visibility(mi)                  float64
+Wind_Direction                      str
+Wind_Speed(mph)                 float64
+Precipitation(in)               float64
+Weather_Condition                   str
+Amenity                            bool
+Bump                               bool
+Crossing                           bool
+Give_Way                           bool
+Junction                           bool
+No_Exit                            bool
+Railway                            bool
+Roundabout                         bool
+Station                            bool
+Stop                               bool
+Traffic_Calming                    bool
+Traffic_Signal                     bool
+Turning_Loop                       bool
+Sunrise_Sunset                      str
+Civil_Twilight                      str
+Nautical_Twilight                   str
+Astronomical_Twilight               str
+dtype: object
+
+df = df.drop(columns= "ID")                                                                                                   # the ID randomly generated so the data could have duplicates
+
+df.duplicated().sum()                                                                                                         # Shows the number of duplicated rows
+np.int64(115409)
+
+df.drop_duplicates(inplace = True)                                                                                            # remove duplicates
+
+df.sort_values(by='Start_Time', ascending=True, inplace=True)                                                                 # sorted by time ascending
+
+df.set_index("Start_Time",drop=False,inplace=True)                                                                            # add new index 
+
+df.isna().sum()
+Source                         0
+Severity                       0
+Start_Time                     0
+End_Time                       0
+Start_Lat                      0
+Start_Lng                      0
+End_Lat                  3119349
+End_Lng                  3119349
+Distance(mi)                   0
+Description                    5
+Street                      9874
+City                         221
+County                         0
+State                          0
+Zipcode                     1710
+Country                        0
+Timezone                    7359
+Airport_Code               21173
+Weather_Timestamp         108698
+Temperature(F)            147531
+Wind_Chill(F)            1612996
+Humidity(%)               156417
+Pressure(in)              126738
+Visibility(mi)            157647
+Wind_Direction            159888
+Wind_Speed(mph)           481129
+Precipitation(in)        1808926
+Weather_Condition         154523
+Amenity                        0
+Bump                           0
+Crossing                       0
+Give_Way                       0
+Junction                       0
+No_Exit                        0
+Railway                        0
+Roundabout                     0
+Station                        0
+Stop                           0
+Traffic_Calming                0
+Traffic_Signal                 0
+Turning_Loop                   0
+Sunrise_Sunset             21025
+Civil_Twilight             21025
+Nautical_Twilight          21025
+Astronomical_Twilight      21025
+dtype: int64
+
+df = df.drop(columns=['Country','End_Lat','End_Lng','Description','Zipcode','Weather_Timestamp','Airport_Code'])                 # Drop Useless culomns
+
+df = df.dropna(subset=['City'])                                                                                                  # Drop nulls in 'city' important variable in the data
+
+df["Traffic Duration"] = df["End_Time"] - df["Start_Time"]                                                                       # Add culomn for traffic duration
