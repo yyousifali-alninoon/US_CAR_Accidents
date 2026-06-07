@@ -1,8 +1,10 @@
 import pandas as pd
 
-df = pd.read_csv(US_Accidents.csv,parse_dates=['Start_Time','End_Time','Weather_Timestamp'])                                # changed the data type to dates)
+df = pd.read_csv(US_Accidents.csv,parse_dates=['Start_Time','End_Time','Weather_Timestamp'])                                
+# changed the data type to dates
 
-filtered = (df['Start_Time'] >= "2017-01-01 00:00:00") & (df['Start_Time'] <= "2022-12-31 23:59:59")                        # Remove first and last years "2016","2023" for missing months
+filtered = (df['Start_Time'] >= "2017-01-01 00:00:00") & (df['Start_Time'] <= "2022-12-31 23:59:59")                        
+# Remove first and last years "2016","2023" for missing months
 df = df[filtered]
 
 df.columns
@@ -73,9 +75,11 @@ Data columns (total 46 columns):
 dtypes: bool(13), datetime64[us](1), float64(12), int64(1), str(19)
 memory usage: 1.9 GB
 
-df['Start_Time'] = df['Start_Time'] = pd.to_datetime(df['Start_Time'], format='mixed')                                       # Unite the date Format For Between All dates
+df['Start_Time'] = df['Start_Time'] = pd.to_datetime(df['Start_Time'], format='mixed')                                       
+# Unite the date Format For Between All dates
 
-df['End_Time'] = df['End_Time'] = pd.to_datetime(df['End_Time'], format='mixed')                                             # Unite the date Format For Between All dates
+df['End_Time'] = df['End_Time'] = pd.to_datetime(df['End_Time'], format='mixed')                                             
+# Unite the date Format For Between All dates
 
 df.dtypes
 ID                                  str
@@ -126,16 +130,21 @@ Nautical_Twilight                   str
 Astronomical_Twilight               str
 dtype: object
 
-df = df.drop(columns= "ID")                                                                                                   # the ID randomly generated so the data could have duplicates
+df = df.drop(columns= "ID")                                                                                                   
+# the ID randomly generated so the data could have duplicates
 
-df.duplicated().sum()                                                                                                         # Shows the number of duplicated rows
+df.duplicated().sum()                                                                                                         
+# Shows the number of duplicated rows
 np.int64(115409)
 
-df.drop_duplicates(inplace = True)                                                                                            # remove duplicates
+df.drop_duplicates(inplace = True)                                                                                            
+# remove duplicates
 
-df.sort_values(by='Start_Time', ascending=True, inplace=True)                                                                 # sorted by time ascending
+df.sort_values(by='Start_Time', ascending=True, inplace=True)                                                                 
+# sorted by time ascending
 
-df.set_index("Start_Time",drop=False,inplace=True)                                                                            # add new index 
+df.set_index("Start_Time",drop=False,inplace=True)                                                                            
+# add new index 
 
 df.isna().sum()
 Source                         0
@@ -185,8 +194,11 @@ Nautical_Twilight          21025
 Astronomical_Twilight      21025
 dtype: int64
 
-df = df.drop(columns=['Country','End_Lat','End_Lng','Description','Zipcode','Weather_Timestamp','Airport_Code'])                 # Drop Useless culomns
+df = df.drop(columns=['Country','End_Lat','End_Lng','Description','Zipcode','Weather_Timestamp','Airport_Code'])                 
+# Drop Useless culomns
 
-df = df.dropna(subset=['City'])                                                                                                  # Drop nulls in 'city' important variable in the data
+df = df.dropna(subset=['City'])                                                                                                  
+# Drop nulls in 'city' important variable in the data
 
-df["Traffic Duration"] = df["End_Time"] - df["Start_Time"]                                                                       # Add culomn for traffic duration
+df["Traffic Duration"] = df["End_Time"] - df["Start_Time"]                                                                       
+# Add culomn for traffic duration
