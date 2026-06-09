@@ -18,5 +18,5 @@ The primary target audience of this project is drivers and road users who can be
 https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents/data
 
 ## Tools
-- python
-- power bi
+- Python
+- Power bi
