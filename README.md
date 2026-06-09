@@ -14,7 +14,7 @@ The main objective of this project is to improve driver safety by analyzing car 
 ## Target Audience:
 The primary target audience of this project is drivers and road users who can benefit from understanding accident patterns and road safety risks. The insights from this analysis can help increase driver awareness and encourage safer driving practices to reduce the likelihood of accidents. This project also useful for transportation authorities, traffic safety organizations, insurance companies, and healthcare institutions. Reducing accidents can lead to fewer injuries, less traffic congestion, lower medical and hospital treatment costs, and reduced vehicle insurance expenses, benefiting both individuals and society as a whole.
 
-## Tools
+## Tools:
 - Python
 - Power bi
 
